@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Code Documentation</title>
+</head>
+<body>
+  <h1>Code Documentation</h1>
+
+  <h2>Installation</h2>
+  <p>To run the code successfully on your local machine, make sure you have the following libraries installed:</p>
+  <ul>
+    <li>data.table</li>
+    <li>ggplot2</li>
+    <li>dplyr</li>
+  </ul>
+  <p>You can install these libraries using the following commands:</p>
+  <pre><code>install.packages("data.table")
+install.packages("ggplot2")
+install.packages("dplyr")
+</code></pre>
+
+  <h2>Code Overview</h2>
+  <pre><code>
+library("data.table")
+library(ggplot2)
+library(dplyr)
+
+# Read data from CSV file
+df22 <- read.csv("/Users/user/Desktop/document.csv")
+
+# Create table with data from CSV
+new_tableavx <- data.frame(df22[1,])
+new_variable <- numeric(nrow(df22))
+
+# Initialize the variable "timp"
+timp <- 0
+
+# Loop over the range of indices to create time column
+for (i in 1:nrow(df22)) {
+  timp <- timp + 0.01
+  new_variable[i] <- timp
+}
+
+# Use cbind to combine the original data frame with the new vector to add time column to the table
+df22 <- cbind(df22, new_variable)
+
+# Rename column names
+current_colnames <- colnames(df22)
+current_colnames[1] <- "Voltage"
+current_colnames[2] <- "Time_s"
+colnames(df22) <- current_colnames
+
+# Remove rows with missing values
+df22 <- df22[complete.cases(df22), ]
+
+# Plot characteristics - Time on X scale and Voltage on Y scale
+p12 <- ggplot(df22, aes(Time_s ,Voltage)) + geom_line()
+p12
+
+# Plot characteristics with zoom on a certain interval to see more detailed voltages
+dfdrop <- filter(df, Time_s > 298.45 & Time_s < 298.5)
+p4 <- ggplot(dfdrop, aes(Time_s ,Voltage)) + geom_line() +
+  scale_x_continuous(breaks = scales::pretty_breaks(n = 10)) +
+  scale_y_continuous(breaks = scales::pretty_breaks(n = 30))
+p4
+
+# Plot characteristics with zoom on a certain interval to see more detailed time
+cap <- filter(df, Voltage <= 0.64)
+p5 <- ggplot(cap, aes(Time_s ,Voltage)) + geom_line() +
+  scale_y_continuous(breaks = scales::pretty_breaks(n = 20)) +
+  scale_x_continuous(breaks = scales::pretty_breaks(n = 20))
+p5
+</code></pre>
+
+  <h2>Instructions</h2>
+  <ol>
+    <li>Install the required libraries: <code>data.table</code>, <code>ggplot2</code>, and <code>dplyr</code>.</li>
+    <li>Make sure the CSV file path in the code is correct and points to the location of your CSV file on your local machine.</li>
+    <li>Run the code line by line in your R environment or execute the entire code block.</li>
+    <li>The code will read the data from the specified CSV file and perform various operations to manipulate and visualize the data.</li>
+    <li>After running the code, you will see three plots.</li>
+    <li>Ensure that you have the necessary CSV file and the required packages installed to execute the code successfully.</li>
+  </ol>
+</body>
+</html>
